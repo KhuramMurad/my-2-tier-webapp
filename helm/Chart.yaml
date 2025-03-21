@@ -1,0 +1,6 @@
+apiVersion: v2
+name: two-tier-app
+description: A 2-tier Node.js application with Postgres
+type: application
+version: 0.1.0
+appVersion: "1.0"

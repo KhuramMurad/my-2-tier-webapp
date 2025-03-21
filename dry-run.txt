@@ -1,0 +1,82 @@
+NAME: backend
+LAST DEPLOYED: Fri Mar 21 13:04:02 2025
+NAMESPACE: default
+STATUS: pending-install
+REVISION: 1
+TEST SUITE: None
+USER-SUPPLIED VALUES:
+{}
+
+COMPUTED VALUES:
+env:
+- name: DB_HOST
+  value: db-postgres
+- name: DB_USER
+  value: postgres
+- name: DB_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      key: password
+      name: postgres-secrets
+- name: DB_NAME
+  value: mydb
+image:
+  pullPolicy: IfNotPresent
+  repository: backend
+  tag: latest
+ingress:
+  enabled: false
+replicaCount: 2
+service:
+  port: 4000
+  type: ClusterIP
+
+HOOKS:
+MANIFEST:
+---
+# Source: backend/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-backend
+spec:
+  selector:
+    app: backend
+  ports:
+    - port: 4000
+      targetPort: 4000
+  type: ClusterIP
+---
+# Source: backend/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: "backend:latest"
+          ports:
+            - containerPort: 4000
+          env:
+            - name: DB_HOST
+              value: "db-postgres"
+            - name: DB_USER
+              value: "postgres"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: password
+            - name: DB_NAME
+              value: "mydb"
+

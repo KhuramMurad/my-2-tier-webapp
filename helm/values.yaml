@@ -1,0 +1,42 @@
+# Database
+db:
+  replicaCount: 1
+  image:
+    repository: postgres
+    tag: "15"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 5432
+  env:
+    POSTGRES_DB: mydb
+    POSTGRES_PASSWORD: mysecretpassword
+  persistence:
+    enabled: false  # Disable PVC for now
+
+# Backend
+backend:
+  replicaCount: 2
+  image:
+    repository: khurammurad/backend
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 4000
+  env:
+    DB_HOST: two-tier-app-db
+    DB_USER: postgres
+    DB_NAME: mydb
+
+# Frontend
+frontend:
+  replicaCount: 2
+  image:
+    repository: khurammurad/frontend
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  service:
+    type: NodePort
+    port: 3000
+    nodePort: 30080
