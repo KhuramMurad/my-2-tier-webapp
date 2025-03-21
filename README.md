@@ -1,5 +1,5 @@
-```markdown
-# 2-Tier Node.js Application
+
+## 2-Tier Node.js Application
 
 This project is a 2-tier web application consisting of a Node.js frontend, a Node.js backend, and a PostgreSQL database, all deployed on a local Kubernetes cluster using Minikube and managed with a single Helm chart. The application demonstrates a simple full-stack setup with containerized components.
 
@@ -275,12 +275,3 @@ minikube service two-tier-app-frontend
 ```
 - Verify the app opens in your browser.
 
----
-
-### Confirmation
-This `README.md` provides a comprehensive guide for anyone to set up and run your project. It emphasizes `minikube service` for access, as that’s what works reliably for you, and includes `NodePort` as an optional method with caveats. Let me know:
-- If you’ve pushed this to GitHub successfully.
-- If the app still runs fine with these instructions.
-- Any adjustments you’d like to make.
-
-Your project is now well-documented and ready for others to use! Share the outcome or any tweaks you need.
